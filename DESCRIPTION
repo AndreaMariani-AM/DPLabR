@@ -14,8 +14,12 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
+    BiocGenerics,
     data.table,
     dplyr,
     fishpond,
+    magrittr,
+    rlang,
     stringr,
-    SummarizedExperiment
+    SummarizedExperiment,
+    utils

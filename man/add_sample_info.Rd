@@ -8,11 +8,11 @@ add_sample_info(sce, fryDir, bc_filter)
 }
 \arguments{
 \item{sce}{A \code{\link[SingleCellExperiment]{SingleCellExperiment}} object produced from
-\code{\link[DPLabR]{load_split_seq}} object}
+\code{\link[DPLabR]{load_split_seq}} function or any other \code{\link[SingleCellExperiment]{SingleCellExperiment}} object}
 
 \item{fryDir}{An Alevin-Fry main directory}
 
-\item{bc_filter}{Logical to assess whether the sample file has been filterd or not}
+\item{bc_filter}{Logical. Sssess whether the sample file has been filterd or not}
 }
 \value{
 A A \code{\link[SingleCellExperiment]{SingleCellExperiment}} object

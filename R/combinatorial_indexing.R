@@ -6,7 +6,9 @@
 #' @param outputFormat One of the available outputformat of the \code{\link[fishpond]{loadFry}}
 #' @param expType One of the available experimental types between Mixed, Human or Mouse
 #'
+#' @importFrom rlang .data
 #' @importFrom fishpond loadFry
+#' @importFrom magrittr %>%
 #' @importFrom dplyr mutate
 #' @importFrom stringr str_replace str_remove str_subset
 #' @importFrom SummarizedExperiment rowData
@@ -47,11 +49,11 @@ load_split_seq <- function(fryDir, outputFormat, expType){
   # Get the mapping table and filter it to be = to rownames(sce). This mapping file
   # will be supplied with the pipeline in the bc_ex_mapping dir
   gene_annotation_table <- data.table::fread(annot_file) %>%
-    dplyr::mutate(Geneid = stringr::str_replace(Geneid, pattern = "\\.\\d*", replacement = ""))
+    dplyr::mutate(Geneid = stringr::str_replace(.data$Geneid, pattern = "\\.\\d*", replacement = ""))
 
 
   gene_annotation_table <- gene_annotation_table %>%
-    dplyr::filter(Geneid %in% rownames(sce))
+    dplyr::filter(.data$Geneid %in% rownames(sce))
 
   # filter out genes that aren't present in reduced gene annotation table
   sce <- sce[rownames(sce) %in% gene_annotation_table$Geneid,]
@@ -68,7 +70,7 @@ load_split_seq <- function(fryDir, outputFormat, expType){
     geneNames <- gene_annotation_table$GeneSymbol[match(rownames(sce),gene_annotation_table$Geneid)]
     geneNames <- stringr::str_remove(geneNames, "Mouse-")
     rownames(sce) <- geneNames
-    rowData(sce)$SYMBOL <- geneNames
+    SummarizedExperiment::rowData(sce)$SYMBOL <- geneNames
 
   } else if (expType == "Mouse") {
     # Select mouse
@@ -80,7 +82,7 @@ load_split_seq <- function(fryDir, outputFormat, expType){
     sce <- sce[geneNames,]
     geneNames_trimmed <- stringr::str_remove(geneNames, "Mouse-")
     rownames(sce) <- geneNames_trimmed
-    rowData(sce)$SYMBOL <- geneNames_trimmed
+    SummarizedExperiment::rowData(sce)$SYMBOL <- geneNames_trimmed
 
   } else if (expType == "Human") {
     # Select Human
@@ -89,7 +91,7 @@ load_split_seq <- function(fryDir, outputFormat, expType){
     rownames(sce) <- geneNames
     geneNames <- stringr::str_subset(geneNames, "Mouse-", negate = TRUE)
     sce <- sce[geneNames,]
-    rowData(sce)$SYMBOL <- geneNames
+    SummarizedExperiment::rowData(sce)$SYMBOL <- geneNames
 
   }
 
@@ -104,13 +106,15 @@ load_split_seq <- function(fryDir, outputFormat, expType){
 #'              in the multiwell
 #'
 #' @param sce A \code{\link[SingleCellExperiment]{SingleCellExperiment}} object produced from
-#'              \code{\link[DPLabR]{load_split_seq}} object
+#'              \code{\link[DPLabR]{load_split_seq}} function or any other \code{\link[SingleCellExperiment]{SingleCellExperiment}} object
 #' @param fryDir  An Alevin-Fry main directory
-#' @param bc_filter Logical to assess whether the sample file has been filterd or not
+#' @param bc_filter Logical. Sssess whether the sample file has been filterd or not
 #'
 #' @return A A \code{\link[SingleCellExperiment]{SingleCellExperiment}} object
 #'
 #' @importFrom SummarizedExperiment colData
+#' @importFrom BiocGenerics duplicated
+#' @importFrom utils read.table
 #' @export
 #'
 add_sample_info <- function(sce, fryDir, bc_filter){
@@ -125,7 +129,7 @@ add_sample_info <- function(sce, fryDir, bc_filter){
   }
 
   # read in sample info to add the information
-  sample_df <- read.table(bc_sample_map, strip.white = TRUE, header = TRUE,
+  sample_df <- utils::read.table(bc_sample_map, strip.white = TRUE, header = TRUE,
                           col.names = c("bc", "third_bc", "sample_info"),
                           sep = "\t")
 
