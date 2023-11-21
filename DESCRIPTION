@@ -14,12 +14,17 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 biocViews:
+Depends:
+    R (>= 4.2)
 Imports: 
     BiocGenerics,
     data.table,
     dplyr,
     fishpond,
+    ggplot2,
     magrittr,
+    megadepth,
+    purrr,
     rlang,
     stringr,
     SummarizedExperiment,

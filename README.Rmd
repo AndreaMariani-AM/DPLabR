@@ -18,12 +18,16 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of DPLabR is to collection custom functions written in different .R files in different
-projects in the same place.
+The goal of DPLabR is to collect custom functions written in different .R files in different
+projects in the same place. The need came up when I realized how hard it would be to keep track of different
+versions of the same custom functions scattered around different .R files. So i decided to grop them here.  
+
+The DPLabR's functions cover different omics technologies, namely `Bulk RNAseq`, `ChIPseq`, `scRNAseq` and `Proteomics`. It's probably not straight forward to remember which function belong to which tech, so i'll try to be as exaustive as possible when writing the documentation.
 
 ## Installation
 
-You can install the development version of DPLabR from [GitHub](https://github.com/AndreaMariani-AM/DPLabR) with:
+Get the latest stable `R` release from [CRAN](http://cran.r-project.org/). Note 
+that you need to have `R >= 4.3`. You can get devel version of DPLabR from [GitHub](https://github.com/AndreaMariani-AM/DPLabR) with:
 
 ``` r
 # install.packages("devtools")
@@ -32,5 +36,21 @@ devtools::install_github("AndreaMariani-AM/DPLabR")
 
 ## Example (undre dev)
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to solve a common problem for each tech.
 
+### Combinatorial Indexing
+
+If you have run our pipeline based on [Alevin-fry](https://github.com/COMBINE-lab/alevin-fry) pipeline then an intuitive to lead your experiment is to leverage `DPLabR::load_split_seq`, which internally uses `fishpond::loadFry` function and does some additional things like standardizing gene names and creating an object based on the specie you specify.  
+Then, there's an optional function to add a sample info on the experiment if this is provided.
+Read the docs for more
+
+```r
+# Load expr
+sce <- load_split_seq(fryDir, outputFormat, expType)
+# Add sample info
+sce <- add_sample_info(sce, fryDir, bc_filter)
+```
+
+### ChIPseq
+
+Some routine analysis you might want to do, is quantify your ChIPseq experiments for some features. We use `get_coverage_custom` function to compute average scores from a list of [bigwig](https://genome.ucsc.edu/goldenPath/help/bigWig.html) files across a list of genomic regions in [BED format](https://genome.ucsc.edu/FAQ/FAQformat.html#format1).
