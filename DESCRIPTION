@@ -22,6 +22,7 @@ Imports:
     dplyr,
     fishpond,
     ggplot2,
+    ggrepel,
     magrittr,
     megadepth,
     purrr,
