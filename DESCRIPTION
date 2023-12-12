@@ -17,16 +17,27 @@ biocViews:
 Depends:
     R (>= 4.2)
 Imports: 
+    AnnotationDbi,
     BiocGenerics,
+    clusterProfiler,
     data.table,
     dplyr,
+    fgsea,
     fishpond,
+    forcats,
     ggplot2,
     ggrepel,
+    glue,
     magrittr,
     megadepth,
+    msigdbr,
+    org.Hs.eg.db,
+    org.Mm.eg.db,
     purrr,
+    ReactomePA,
     rlang,
     stringr,
     SummarizedExperiment,
+    tibble,
+    tidyr,
     utils

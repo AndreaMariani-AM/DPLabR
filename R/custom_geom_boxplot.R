@@ -3,7 +3,7 @@
 #'            if too extreme and make a plot unreadable
 #' @param size An integer controlling the size of the boxes. Default is 0.8
 #' @param width An integer controlling the width of the boxes. Default is 0.8
-#' @param position A character specifiyng the position. Default is "identity"
+#' @param position A character specifying the position. Default is "identity"
 #'
 #' @importFrom ggplot2 stat_summary
 #'

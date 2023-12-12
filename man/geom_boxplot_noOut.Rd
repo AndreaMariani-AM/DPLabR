@@ -11,7 +11,7 @@ geom_boxplot_noOut(size = 0.8, width = 0.8, position = "identity")
 
 \item{width}{An integer controlling the width of the boxes. Default is 0.8}
 
-\item{position}{A character specifiyng the position. Default is "identity"}
+\item{position}{A character specifying the position. Default is "identity"}
 }
 \value{
 A geom layer
